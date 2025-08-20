@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title or "Dashboard" }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef3f8; margin: 0; padding: 0; }
+    .container {
+      max-width: 600px; margin: 80px auto; padding: 40px;
+      background: #a2d5f2; border-radius: 8px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    h1 { background: #f9c74f; padding: 20px; margin: -40px -40px 30px; border-radius: 8px 8px 0 0; }
+    nav { display: flex; justify-content: space-around; margin-bottom: 30px; }
+    nav a {
+      color: #333; text-decoration: none; font-weight: bold;
+      padding: 10px 15px; background: #f0f0f0; border-radius: 4px;
+      transition: background 0.2s;
+    }
+    nav a:hover { background: #ddd; }
+    .content { text-align: left; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+    <nav>
+      <a href="{{ url_for('calendar') }}">Calendar</a>
+      <a href="{{ url_for('availability') }}">Availability</a>
+      <a href="{{ url_for('bookings') }}">Bookings</a>
+      <a href="{{ url_for('appointments') }}">My Appointments</a>
+    </nav>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+</html>
