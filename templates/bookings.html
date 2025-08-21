@@ -1,5 +1,222 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Bookings</h2>
-<p>Manage or view booking entries here.</p>
+<div class="bookings-container">
+    <!-- Rectangular grey title -->
+    <div class="bookings-title">
+        <h1>My Bookings</h1>
+    </div>
+    
+    <!-- Main content with purple background -->
+    <div class="bookings-main">
+        <!-- Left subtitle -->
+        <div class="bookings-subtitle">
+            <h3>Your Scheduled Sessions</h3>
+            <p>View all your upcoming sport bookings</p>
+        </div>
+        
+        <!-- Bookings list -->
+        <div class="bookings-list">
+            <div id="bookings-container">
+                <!-- Bookings will be populated from book session -->
+            </div>
+            
+            <div class="no-bookings">
+                <p>No bookings yet. Book your first session!</p>
+                <button class="white-button" onclick="goToBookSession()">Book Session</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bookings-container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.bookings-title {
+    background-color: #666;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.bookings-title h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+.bookings-main {
+    background-color: #8B5CF6;
+    padding: 40px;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.bookings-subtitle {
+    flex: 0 0 300px;
+    color: white;
+}
+
+.bookings-subtitle h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+.bookings-subtitle p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 1.1em;
+}
+
+.bookings-list {
+    flex: 1;
+    min-width: 300px;
+}
+
+.booking-item {
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+.booking-info {
+    flex: 1;
+}
+
+.booking-info strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+.booking-info span {
+    display: block;
+    opacity: 0.8;
+    margin-bottom: 3px;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.white-button {
+    background-color: white;
+    color: #8B5CF6;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.white-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.white-button.danger {
+    color: #dc3545;
+}
+
+.no-bookings {
+    text-align: center;
+    color: white;
+    padding: 40px;
+}
+
+.no-bookings p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+    .bookings-main {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .bookings-subtitle {
+        flex: 1 1 100%;
+    }
+    
+    .booking-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .booking-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+</style>
+
+<script>
+// Function to load bookings from localStorage
+function loadBookings() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const container = document.getElementById('bookings-container');
+    const noBookings = document.querySelector('.no-bookings');
+    
+    if (bookings.length === 0) {
+        container.style.display = 'none';
+        noBookings.style.display = 'block';
+    } else {
+        container.style.display = 'block';
+        noBookings.style.display = 'none';
+        
+        // Clear existing content
+        container.innerHTML = '';
+        
+        // Render each booking
+        bookings.forEach(booking => {
+            const bookingDiv = document.createElement('div');
+            bookingDiv.className = 'booking-item';
+            bookingDiv.innerHTML = `
+                <div class="booking-info">
+                    <strong>${booking.sport} Session</strong>
+                    <span>Date: ${booking.date}</span>
+                    <span>Time: ${booking.time}</span>
+                    <span>Name: ${booking.name}</span>
+                </div>
+                <div class="booking-actions">
+                    <button class="white-button" onclick="cancelBooking(${booking.id})">Cancel</button>
+                </div>
+            `;
+            container.appendChild(bookingDiv);
+        });
+    }
+}
+
+function goToBookSession() {
+    window.location.href = '/book';
+}
+
+function cancelBooking(bookingId) {
+    if (confirm('Are you sure you want to cancel this booking?')) {
+        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const updatedBookings = bookings.filter(booking => booking.id !== bookingId);
+        localStorage.setItem('bookings', JSON.stringify(updatedBookings));
+        loadBookings();
+    }
+}
+
+// Load bookings when page loads
+document.addEventListener('DOMContentLoaded', loadBookings);
+</script>
 {% endblock %}
