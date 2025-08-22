@@ -7,8 +7,14 @@ VALID_USER = "admin"
 VALID_PASS = "password"
 bookings = []
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def index():
+    """Default landing page - always show login"""
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Login page - handles both GET and POST requests"""
     if session.get('logged_in'):
         return redirect(url_for('dashboard'))
 
@@ -22,7 +28,7 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             error = "Invalid credentials. Please try again."
-    return render_template('login.html', error=error)
+    return render_template('login_clean.html', error=error)
 
 @app.route('/logout')
 def logout():
@@ -82,4 +88,6 @@ def view_bookings():
     return render_template('bookings.html', bookings=bookings)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Run on all available network interfaces (0.0.0.0)
+    # This makes the app accessible from other devices on the same network
+    app.run(host='0.0.0.0', port=5000, debug=True)
