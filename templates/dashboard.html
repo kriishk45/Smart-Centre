@@ -1,4 +1,155 @@
 {% extends "base.html" %}
 {% block content %}
-<p>Welcome to your dashboard! Choose an option above to get started.</p>
+<style>
+.calendar-container {
+    background-color: #ffcccc; /* Light red background */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    font-weight: bold;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weekday-header {
+    padding: 10px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.available {
+    background-color: #90ee90; /* Light green for available */
+    color: black;
+}
+
+.fully-booked {
+    background-color: #ff6b6b; /* Light red for fully booked */
+    color: white;
+}
+
+.today {
+    border: 2px solid #007bff;
+}
+
+.availability-legend {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.legend-item {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 2px;
+}
+</style>
+
+<div class="calendar-container">
+    <h2>Lane Availability Calendar</h2>
+    <p>Check which dates have available lanes for booking</p>
+    
+    <div class="calendar-header">
+        <span>August 2024</span>
+    </div>
+
+    <div class="calendar-grid">
+        <!-- Weekday headers -->
+        <div class="weekday-header">Sun</div>
+        <div class="weekday-header">Mon</div>
+        <div class="weekday-header">Tue</div>
+        <div class="weekday-header">Wed</div>
+        <div class="weekday-header">Thu</div>
+        <div class="weekday-header">Fri</div>
+        <div class="weekday-header">Sat</div>
+
+        <!-- Calendar dates with made-up availability -->
+        <!-- Week 1 -->
+        <div class="calendar-day available">1</div>
+        <div class="calendar-day available">2</div>
+        <div class="calendar-day available">3</div>
+        <div class="calendar-day available">4</div>
+        <div class="calendar-day fully-booked">5</div>
+        <div class="calendar-day available">6</div>
+        <div class="calendar-day available">7</div>
+
+        <!-- Week 2 -->
+        <div class="calendar-day available">8</div>
+        <div class="calendar-day available">9</div>
+        <div class="calendar-day available">10</div>
+        <div class="calendar-day fully-booked">11</div>
+        <div class="calendar-day available">12</div>
+        <div class="calendar-day available">13</div>
+        <div class="calendar-day available">14</div>
+
+        <!-- Week 3 -->
+        <div class="calendar-day available">15</div>
+        <div class="calendar-day available">16</div>
+        <div class="calendar-day fully-booked">17</div>
+        <div class="calendar-day available">18</div>
+        <div class="calendar-day available">19</div>
+        <div class="calendar-day available">20</div>
+        <div class="calendar-day available">21</div>
+
+        <!-- Week 4 -->
+        <div class="calendar-day available">22</div>
+        <div class="calendar-day available">23</div>
+        <div class="calendar-day available">24</div>
+        <div class="calendar-day fully-booked">25</div>
+        <div class="calendar-day available">26</div>
+        <div class="calendar-day available">27</div>
+        <div class="calendar-day available">28</div>
+
+        <!-- Week 5 -->
+        <div class="calendar-day available">29</div>
+        <div class="calendar-day available">30</div>
+        <div class="calendar-day available">31</div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+    </div>
+
+    <div class="availability-legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Available Lanes</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #ff6b6b;"></div>
+            <span>Fully Booked</span>
+        </div>
+    </div>
+</div>
 {% endblock %}
